@@ -1,5 +1,5 @@
 /* Set properties of width, height, etc. */
-var width = 1650, 
+var width = 1300, 
     // sets width (1650 for full screen) 
     height = 700, 
     // sets height of svg
