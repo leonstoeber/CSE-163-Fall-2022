@@ -1,6 +1,6 @@
 body { 
     font-size: 13px; /* sets default font size for body text */
-    font-family: Futura; /* sets default font for body text */
+    font-family: Trebuchet MS; /* sets default font for body text */
 } 
 
 a { color: blue; } /* makes links permanently blue */ 
@@ -23,13 +23,13 @@ a { color: blue; } /* makes links permanently blue */
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* sets shadow */ 
 }
 
-#tooltip.hidden { 
+.hidden { 
     display: none; /* hides display of tooltip when not in use */ 
 }
 
 #tooltip p { 
     margin: 10px; /* applies 10 pixel margin to tooltip text elements */
-    font-family: Futura; /* sets tooltip font */ 
+    font-family: Trebuchet MS; /* sets tooltip font */
     font-size: 16px; /* sets tooltip font size */ 
     line-height: 20px; /* sets tooltip line height */ 
 }

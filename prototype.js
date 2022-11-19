@@ -1,6 +1,7 @@
 /* Set properties of width, height, etc. */
-var width = 1300, 
-    // sets width (1650 for full screen) 
+var width = 800, 
+    // sets width (1650 for full screen on mac) 
+    // (final width yet to be decided) 
     height = 700, 
     // sets height of svg
     nodePadding = 4, 
@@ -9,9 +10,10 @@ var width = 1300,
     // defines separation between different-artist nodes
 
 
-/* Define new svg */ 
 var svg = d3.select("body").append("svg") // appends svg to html body
-    .attr("width", "auto") // sets svg width 
+    .style("margin", "50px") // adds svg margin 
+    .style("overflow", "visible") // shows elements outside of svg 
+    .attr("width", width) // sets svg width 
     .attr("height", height); // sets svg height 
 
 
@@ -78,133 +80,133 @@ d3.text("data.csv", function(error, painter) {
         /* Set radius according to (scaled up) size defined in csv */ 
         .attr("r", function(d){return d.radius})
         
-        /* When mouse enters area of a (painting) circle: */ 
-        .on("mouseover", function(d) { if (d.painting != "") { 
+        /* When mouse enters area of a circle: */ 
+        .on("mouseover", function(d) { 
+            
+            /* If circle is a painting: */ 
+            if (d.painting != "") { 
         
-            /* Insert painting title */ 
-            d3.select("#tooltip") // selects div with id: "tooltip" 
-                .select("#name") // selects span with id: "name" 
-                .text(d.painting); // inserts flavor name from csv data 
+                /* Insert painting title */ 
+                d3.select("#tooltip") // selects div with id: "tooltip" 
+                    .select("#name") // selects span with id: "name" 
+                    .text(d.painting); // inserts flavor name from csv data 
         
-            /* Insert white square to cover previously appended images */ 
-            d3.select("#tooltip") // selects div with id: "tooltip" 
-                .select("#image") // selects svg with id: "image" 
-                .append("rect") // appends rectangle 
-                .attr("width", "205px") // sets width 
-                .attr("height", "205px") // sets height 
-                .attr("fill", "#fff"); // sets fill to white 
+                /* Insert white square to cover previously appended images */ 
+                d3.select("#tooltip") // selects div with id: "tooltip" 
+                    .select("#image") // selects svg with id: "image" 
+                    .append("rect") // appends rectangle 
+                    .attr("width", "205px") // sets width 
+                    .attr("height", "205px") // sets height 
+                    .attr("fill", "#fff"); // sets fill to white 
         
-            /* Insert image of painting */ 
-            d3.select("#tooltip") // selects div with id: "tooltip" 
-                .select("#image") // selects svg with id: "image" 
-                .append("svg:image") // appends image to svg 
-                .attr("xlink:href", d.link) // uses image link from data 
-                .attr("height", "200px") // sets height 
-                .attr("width", "200px"); // sets width 
+                /* Insert image of painting */ 
+                d3.select("#tooltip") // selects div with id: "tooltip" 
+                    .select("#image") // selects svg with id: "image" 
+                    .append("svg:image") // appends image to svg 
+                    .attr("xlink:href", d.link) // uses image link from data 
+                    .attr("height", "200px") // sets height 
+                    .attr("width", "200px"); // sets width 
         
-            /* Insert first color */
-            d3.select("#tooltip") // selects div with id: "tooltip" 
-                .select("#pal") // selects svg with id: "pal" 
-                .append("rect") // appends rectangle 
-                .attr("width", "25px") // sets width 
-                .attr("height", "25") // sets height 
-                .attr("fill", d.c0) // sets fill to first color from data
-                .attr("x", "0") // sets x position 
-                .attr("y", "10"); // sets y position 
+                /* Insert first color */
+                d3.select("#tooltip") // selects div with id: "tooltip" 
+                    .select("#pal") // selects svg with id: "pal" 
+                    .append("rect") // appends rectangle 
+                    .attr("width", "25px") // sets width 
+                    .attr("height", "25") // sets height 
+                    .attr("fill", d.c0) // sets fill to first color from data
+                    .attr("x", "0") // sets x position 
+                    .attr("y", "10"); // sets y position 
         
-            /* Insert second color */ 
-            d3.select("#tooltip") 
-                .select("#pal")
-                .append("rect")
-                .attr("width", "25px")
-                .attr("height", "25")
-                .attr("fill", d.c1)
-                .attr("x", "25")
-                .attr("y", "10");
+                /* Insert second color */ 
+                d3.select("#tooltip") 
+                    .select("#pal")
+                    .append("rect")
+                    .attr("width", "25px")
+                    .attr("height", "25")
+                    .attr("fill", d.c1)
+                    .attr("x", "25")
+                    .attr("y", "10");
         
-            /* Insert third color */ 
-            d3.select("#tooltip") 
-                .select("#pal")
-                .append("rect")
-                .attr("width", "25px")
-                .attr("height", "25")
-                .attr("fill", d.c2)
-                .attr("x", "50")
-                .attr("y", "10");
+                /* Insert third color */ 
+                d3.select("#tooltip") 
+                    .select("#pal")
+                    .append("rect")
+                    .attr("width", "25px")
+                    .attr("height", "25")
+                    .attr("fill", d.c2)
+                    .attr("x", "50")
+                    .attr("y", "10");
         
-            /* Insert fourth color */ 
-            d3.select("#tooltip") 
-                .select("#pal")
-                .append("rect")
-                .attr("width", "25px")
-                .attr("height", "25")
-                .attr("fill", d.c3)
-                .attr("x", "75")
-                .attr("y", "10");
+                /* Insert fourth color */ 
+                d3.select("#tooltip") 
+                    .select("#pal")
+                    .append("rect")
+                    .attr("width", "25px")
+                    .attr("height", "25")
+                    .attr("fill", d.c3)
+                    .attr("x", "75")
+                    .attr("y", "10");
         
-            /* Insert fifth color */ 
-            d3.select("#tooltip") 
-                .select("#pal")
-                .append("rect")
-                .attr("width", "25px")
-                .attr("height", "25")
-                .attr("fill", d.c4)
-                .attr("x", "100")
-                .attr("y", "10");
+                /* Insert fifth color */ 
+                d3.select("#tooltip") 
+                    .select("#pal")
+                    .append("rect")
+                    .attr("width", "25px")
+                    .attr("height", "25")
+                    .attr("fill", d.c4)
+                    .attr("x", "100")
+                    .attr("y", "10");
         
-            /* Insert sixth color */ 
-            d3.select("#tooltip") 
-                .select("#pal")
-                .append("rect")
-                .attr("width", "25px")
-                .attr("height", "25")
-                .attr("fill", d.c5)
-                .attr("x", "125")
-                .attr("y", "10");
+                /* Insert sixth color */ 
+                d3.select("#tooltip") 
+                    .select("#pal")
+                    .append("rect")
+                    .attr("width", "25px")
+                    .attr("height", "25")
+                    .attr("fill", d.c5)
+                    .attr("x", "125")
+                    .attr("y", "10");
         
-            /* Insert seventh color */ 
-            d3.select("#tooltip") 
-                .select("#pal")
-                .append("rect")
-                .attr("width", "25px")
-                .attr("height", "25")
-                .attr("fill", d.c6)
-                .attr("x", "150")
-                .attr("y", "10");
+                /* Insert seventh color */ 
+                d3.select("#tooltip") 
+                    .select("#pal")
+                    .append("rect")
+                    .attr("width", "25px")
+                    .attr("height", "25")
+                    .attr("fill", d.c6)
+                    .attr("x", "150")
+                    .attr("y", "10");
         
-            /* Insert eighth color */ 
-            d3.select("#tooltip") 
-                .select("#pal")
-                .append("rect")
-                .attr("width", "25px")
-                .attr("height", "25")
-                .attr("fill", d.c7)
-                .attr("x", "175")
-                .attr("y", "10");
+                /* Insert eighth color */ 
+                d3.select("#tooltip") 
+                    .select("#pal")
+                    .append("rect")
+                    .attr("width", "25px")
+                    .attr("height", "25")
+                    .attr("fill", d.c7)
+                    .attr("x", "175")
+                    .attr("y", "10");
         
-            /* Set transition and show tooltip */ 
-            d3.select("#tooltip") // selects div with id: "tooltip"
-                .classed("hidden", false) // shows tooltip
-                .transition() // adds transition 
-                .duration(50) // determines length of transition 
-                .style("left", (d3.event.pageX) - 50 + "px") 
-                // sets x position according to cursor position 
-                .style("top", (d3.event.pageY) + 25 + "px"); 
-                // sets y position according to cursor position 
-        }}) 
+                /* Set transition and show tooltip */ 
+                d3.select("#tooltip") // selects div with id: "tooltip"
+                    .style("left", (d3.event.pageX) - 50 + "px") 
+                    // sets x position according to cursor position 
+                    .style("top", (d3.event.pageY) + 25 + "px") 
+                    // sets y position according to cursor position 
+                    .classed("hidden", false); // shows tooltip
+            }
+        }) 
     
         /* When mouse moves: */ 
         .on("mousemove", function() {  
             d3.select("#tooltip") // selects div with id: "tooltip" 
-                .transition() // adds transition 
-                .duration(5) // determines length of transition 
                 .style("left", (d3.event.pageX) - 50 + "px") 
                 // sets x position according to cursor position 
                 .style("top", (d3.event.pageY) + 25 + "px");
                 // sets y position according to cursor position 
         })
     
-        /* When mouse leaves area of a (painting) circle: */ 
+        /* When mouse leaves area of a circle: */ 
         .on("mouseout", function() { 
             d3.select("#tooltip") // selects div with id: "tooltip" 
                 .classed("hidden", true); // hides tooltip 
@@ -252,13 +254,25 @@ d3.text("data.csv", function(error, painter) {
     function tick(e) {
         node.each(cluster(20 * e.alpha * e.alpha)) 
             // determines the speed at which nodes cluster together 
-            .each(collide(0.5)) 
+            .each(collide(.7)) 
             // determines the speed at which nodes repel upon collision 
-        .attr("transform", function (d) {
+        .attr("transform", function (d) { 
+            
+            /* Set bounds for nodes to reside within */ 
+            if (d.x > 1200) d.x = 1200; 
+            // d.x is too far right, set to width (or 1200) 
+            if (d.x < -400) d.x = -400; 
+            // if d.x is too far left, set to 0 (or -400) 
+            if (d.y > height) d.y = height; 
+            // if d.y is too low, set to height 
+            if (d.y < 0) d.y = 0; 
+            // if d.y is too high, set to 0
+            
             var k = "translate(" + d.x + "," + d.y + ")"; 
             // sets each node to translate by d.x and d.y 
             return k; 
             // return k as translation function 
+            
         }) 
     }
 
