@@ -70,6 +70,13 @@ d3.csv('./raw-data.csv', (d) => {
         return {r, g, b, hex: string};
     })
 
+    for (let i = 0; i < data.colors.length; i++) {
+        if (!data.colors[i]) {
+            data.colors.splice(i, 1);
+            i -= 1;
+        }
+    }
+
     if (!clusters[data.cluster]) {
         clusters[data.cluster] = clusterCount;
         clusterCount += 1;
@@ -183,6 +190,19 @@ d3.csv('./raw-data.csv', (d) => {
     )
 
     const nodeCircles = nodeContainer.selectAll('circle')
+    .on('mouseover', (d) => {
+        d.colors?.forEach((color, i) => {
+            /* Insert color */
+            const rect = d3.select("#tooltip #pal") // selects div with id: "tooltip" and child id "pal"
+            .append("rect") // appends rectangle 
+            .attr("width", "25px") // sets width 
+            .attr("height", "25") // sets height 
+            .attr("fill", `#${color.hex}`) // sets fill to first color from data
+            .attr("x", i * 25) // sets x position 
+            .attr("y", "10"); // sets y position 
+            color.rect = rect;
+        })
+    })
     .on('mousemove', (d) => {
         // const node = nodes[i];
         const e = d3.event;
@@ -205,6 +225,9 @@ d3.csv('./raw-data.csv', (d) => {
         tooltip.style('display', 'none')
         d.lines.forEach((line) => {
             line.classList.toggle('highlight', false);
+        })
+        d.colors?.forEach((color) => {
+            color.rect?.remove();
         })
     })  
 

@@ -206,6 +206,9 @@ d3.csv('./data.csv', (d) => {
     )
 
     const nodeCircles = nodeContainer.selectAll('circle')
+    .on('mouseover', (d) => {
+        
+    })
     .on('mousemove', (d, i, nodes) => {
         const node = nodes[i];
         const e = d3.event;
