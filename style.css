@@ -1,0 +1,106 @@
+body { 
+    font-size: 13px; /* sets default font size for body text */
+    font-family: Trebuchet MS; /* sets default font for body text */
+} 
+
+
+a { color: blue; } /* makes links permanently blue */ 
+
+
+/* centers elements for use in the tooltip */ 
+.center { 
+  display: block; /* sets elements to be treated as block elements */ 
+  margin-left: auto; /* auto sets left margin */ 
+  margin-right: auto; /* auto sets right margin */
+}
+
+
+/* hides display of tooltip when not in use */ 
+.hidden { display: none; }
+
+
+
+
+/* Main tooltip settings: */ 
+#tooltip {
+    position: absolute; /* prevents tooltip position from affecting positions of other objects onscreen */ 
+    z-index: 100; /* places tooltip above all elements */ 
+    right: 90px; /* initial x position */ 
+    top: 190px; /* initial y position */ 
+    padding: 10px; /* sets padding around tooltip elements to 10px */
+    background-color: white; /* sets tooltip background color to white */ 
+    border-radius: 10px; /* rounds out edges */ 
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* sets shadow */ 
+    margin: 0px; /* eliminates margin around tooltip */ 
+    font-family: Trebuchet MS; /* sets tooltip font */ 
+    font-size: 14px; /* sets tooltip font size */ 
+    line-height: 14px; /* sets tooltip line height */ 
+    height: auto; /* automatically sets tooltip height */ 
+    width: 200px; /* sets tooltip to a fixed width */ 
+    pointer-events: none; /* eliminates pointer conflicts */ 
+}
+
+
+/* Tooltip for painter names settings: */ 
+#pTooltip {
+    position: absolute; /* prevents tooltip position from affecting positions of other objects onscreen */ 
+    z-index: 100; 
+    right: 90px; /* initial x position */ 
+    top: 190px; /* initial y position */ 
+    padding: 0px; /* sets padding around tooltip elements to 10px */
+    background-color: white; /* sets tooltip background color to white */ 
+    border-radius: 10px; /* rounds out edges */ 
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* sets shadow */ 
+    margin: 0px; /* eliminates margin around tooltip */ 
+    font-family: Trebuchet MS; /* sets tooltip font */ 
+    font-size: 14px; /* sets tooltip font size */ 
+    line-height: 14px; /* sets tooltip line height */ 
+    height: auto; /* automatically sets tooltip height */ 
+    width: 120px; /* sets tooltip to a fixed width */ 
+    pointer-events: none; /* eliminates pointer conflicts */ 
+}
+
+
+/* Tooltip for warning message settings: */ 
+#pTextTooltip {
+    position: absolute; /* prevents tooltip position from affecting positions of other objects onscreen */ 
+    z-index: 100; 
+    right: 90px; /* initial x position */ 
+    top: 190px; /* initial y position */ 
+    padding: 0px; /* sets padding around tooltip elements to 10px */
+    background-color: white; /* sets tooltip background color to white */ 
+    border-radius: 10px; /* rounds out edges */ 
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* sets shadow */ 
+    margin: 0px; /* eliminates margin around tooltip */ 
+    font-family: Trebuchet MS; /* sets tooltip font */ 
+    font-size: 14px; /* sets tooltip font size */ 
+    line-height: 14px; /* sets tooltip line height */ 
+    height: auto; /* automatically sets tooltip height */ 
+    width: 370px; /* sets tooltip to a fixed width */ 
+    pointer-events: none; /* eliminates pointer conflicts */ 
+}
+
+
+
+
+/* Define class noPointers to eliminate pointer conflicts: */ 
+.noPointers { pointer-events: none; } 
+
+
+/* Set submission area background color to light blue: */
+#submission { background-color: aliceblue; } 
+
+
+/* To create four columns that float side by side: */
+.column {
+    float: left; /* sets text to float left */
+    text-align: center; /* centers text within its column */
+    width: 25%; /* sets width of each column to 1/4 of the page */
+} 
+
+/* To extend blue div background to include the previously-mentioned columns: */
+.row:after {
+    content: ""; /* inserts blank content after columns */ 
+    display: block; /* sets element to be treated as a block element */
+    clear: left; /* pushes div below left floating elements */
+}
