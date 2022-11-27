@@ -66,7 +66,7 @@ d3.csv('./raw-data.csv', (d) => {
         // unique id of the painting, this is using the filename
         label: d['Filename'],
         // title of the painting, if none default to the filename
-        name: d['Name'] || d['Filename'],
+        name: d['Painting Title'] || d['Filename'],
         colors: [d['Color 1'], d['Color 2'], d['Color 3'], d['Color 4'], d['Color 5'], d['Color 6'], d['Color 7'], d['Color 8']],
         // links is an array of labels
         links: [d['Artist Name']],
