@@ -1,6 +1,7 @@
 body { 
     font-size: 13px; /* sets default font size for body text */
     font-family: Trebuchet MS; /* sets default font for body text */
+    overflow-x: hidden;
 } 
 
 a { color: blue; } /* makes links permanently blue */ 
