@@ -1,7 +1,7 @@
 const margin = {
     left: 0, right: 0, top: 0, bottom: 0
 }
-const svgWidth = 700;
+const svgWidth = 900;
 const svgHeight = 800;
 const width = svgWidth - margin.left - margin.right;
 const height = svgHeight - margin.top - margin.bottom;
@@ -112,7 +112,7 @@ d3.csv('./raw-data.csv', (d) => {
         // links is an array of labels
         links: [d['Artist Name']],
 
-        radius: 10,
+        radius: 20,
 
         // store the src path of the painting
         src: `./paintings/${d['Filename']}`,
@@ -162,7 +162,7 @@ d3.csv('./raw-data.csv', (d) => {
     }
     clusters[data.cluster].count += 1;
     if (d['Artist Filename']) {
-        clusters[data.cluster].src = d['Artist Filename'];
+        clusters[data.cluster].src = `./painters/${d['Artist Filename']}`;
     }
 
 
@@ -197,7 +197,7 @@ d3.csv('./raw-data.csv', (d) => {
             colors: [],
             // links is an array of labels
             links: [],
-            radius: 20,
+            radius: 40,
             // image of the painter
             src: src || '',
             painting: false,
@@ -390,6 +390,7 @@ d3.csv('./raw-data.csv', (d) => {
             .attr('height', `${d.radius * 2}px`)
             .attr('xlink:href', d.src || './painters/edvard-munch.png')
             .attr('clip-path', `inset(0% round ${d.radius * 2}px)`)
+            .attr('preserveAspectRatio', 'xMinYMin slice')
             .style('transform', `translate(${-d.radius}px, ${-d.radius}px)`)
         } else {
             node
