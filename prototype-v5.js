@@ -131,7 +131,7 @@ d3.csv('./raw-data.csv', (d) => {
 
     // convert the array of colors for each palette into more manageable values
     // this includes separating the RGB components and storing the hex value
-    // example: '#ff0000' -> {r: 255, g: 0, b: 0, hex: 'ff0000'}
+    // example: '#ff0000' -> {r: 255, g: 0, b: 0, hex: 'ff0000', h: 0-360, s: % 0-100, v: % 0-100}
     data.colors = data.colors.map((string) => {
         if (!string) {
             return;
@@ -143,7 +143,8 @@ d3.csv('./raw-data.csv', (d) => {
         const r = parseInt(string.substr(0, 2), 16);
         const g = parseInt(string.substr(2, 2), 16);
         const b = parseInt(string.substr(4, 2), 16);
-        return {r, g, b, hex: string};
+        const {h, s, v} = rgbToHsv(r, g, b);
+        return {r, g, b, hex: string, h, s, v};
     })
 
     // removes undefined colors in the colors array
@@ -154,6 +155,33 @@ d3.csv('./raw-data.csv', (d) => {
         }
     }
 
+    // calculate average color using hsv
+    const avgHsv = {h: 0, s: 0, v: 0}
+    if (data.colors.length > 0) {
+        data.colors.forEach((color) => {
+            avgHsv.h += color.h;
+            avgHsv.s += color.s;
+            avgHsv.v += color.v;
+        })
+        avgHsv.h /= data.colors.length;
+        avgHsv.s /= data.colors.length;
+        avgHsv.v /= data.colors.length;
+    }
+    data.avgHsv = avgHsv;
+
+    // calculate average color using rgb
+    const avgRgb = {r: 0, g: 0, b: 0}
+    if (data.colors.length > 0) {
+        data.colors.forEach((color) => {
+            avgRgb.r += color.r;
+            avgRgb.g += color.g;
+            avgRgb.b += color.b;
+        })
+        avgRgb.r /= data.colors.length;
+        avgRgb.g /= data.colors.length;
+        avgRgb.b /= data.colors.length;
+    }
+    data.avgRgb = avgRgb;
 
     // stores new clusters into the clusters map
     // this data will keep track of the painting count of each artist, as well as the artist's picture's path
@@ -346,6 +374,41 @@ d3.csv('./raw-data.csv', (d) => {
     
         })
 
+        // if the data is of a painter, setup the image, otherwise setup the circle
+        if (d.painter) {
+            node
+            .attr('width', `${d.radius * 2}px`)
+            .attr('height', `${d.radius * 2}px`)
+            .attr('xlink:href', d.src || './painters/edvard-munch.png')
+            .attr('clip-path', `inset(0% round ${d.radius * 2}px)`)
+            .attr('preserveAspectRatio', 'xMinYMin slice')
+            .style('transform', `translate(${-d.radius}px, ${-d.radius}px)`)
+        } else {
+            node
+            .attr('r', d.radius)
+            .attr('fill', () => {
+                if (d.painting) {
+                    // original (first color of palette)
+                    const color = d.colors[0] ? `#${d.colors[0].hex}` : '#000000ff';
+
+                    // avg hsv
+                    // const {h, s, v} = d.avgHsv;
+                    // const color = d.avgHsv ? `hsl(${h},${s}%,${v}%)` : '#000000ff';
+
+                    // avg rgb
+                    // const {r, g, b} = d.avgRgb;
+                    // const color = d.avgRgb ? `rgb(${r},${g},${b})` : '#000000ff';
+
+                    // avg rgb into hsv
+                    // const {h, s, v} = rgbToHsv(r, g, b);
+                    // const color = d.avgHsv ? `hsl(${h},${50}%,${v}%)` : '#000000ff';
+                    // const color = d.avgRgb ? `rgb(${r},${g},${b})` : '#000000ff';
+                    return color;
+                }
+                return '#000000ff';
+            })
+        }
+
         // stores the node as a property of the data
         // this is for easy access to the node
         d.node = node;
@@ -359,7 +422,6 @@ d3.csv('./raw-data.csv', (d) => {
     // link creation
     //
     data.forEach((d) => {
-        const node = d.node;
 
         // add links to links
         d.links.forEach((label) => {
@@ -381,27 +443,7 @@ d3.csv('./raw-data.csv', (d) => {
                 distance: d.radius + (dataMap[label].radius),
             })
         });
-        
-
-        // if the data is of a painter, setup the image, otherwise setup the circle
-        if (d.painter) {
-            node
-            .attr('width', `${d.radius * 2}px`)
-            .attr('height', `${d.radius * 2}px`)
-            .attr('xlink:href', d.src || './painters/edvard-munch.png')
-            .attr('clip-path', `inset(0% round ${d.radius * 2}px)`)
-            .attr('preserveAspectRatio', 'xMinYMin slice')
-            .style('transform', `translate(${-d.radius}px, ${-d.radius}px)`)
-        } else {
-            node
-            .attr('r', d.radius)
-            .attr('fill', () => {
-                if (d.painting) {
-                    return d.colors[0] ? `#${d.colors[0].hex}` : '#000000ff';
-                }
-                return '#000000ff';
-            })
-        }
+                
     })
 
 
@@ -457,3 +499,52 @@ d3.csv('./raw-data.csv', (d) => {
     simulation.force('link')
     .links(links);
 })
+
+
+
+// javascript program change RGB Color
+// Model to HSV Color Model
+// This code is contributed by todaysgaurav
+// https://www.geeksforgeeks.org/program-change-rgb-color-model-hsv-color-model/
+function rgbToHsv(r , g , b) {
+ 
+    // R, G, B values are divided by 255
+    // to change the range from 0..255 to 0..1
+    r = r / 255.0;
+    g = g / 255.0;
+    b = b / 255.0;
+
+    // h, s, v = hue, saturation, value
+    const cmax = Math.max(r, Math.max(g, b)); // maximum of r, g, b
+    const cmin = Math.min(r, Math.min(g, b)); // minimum of r, g, b
+    const diff = cmax - cmin; // diff of cmax and cmin.
+    let h = -1;
+    let s = -1;
+
+    // if cmax and cmax are equal then h = 0
+    if (cmax == cmin)
+        h = 0;
+
+    // if cmax equal r then compute h
+    else if (cmax == r)
+        h = (60 * ((g - b) / diff) + 360) % 360;
+
+    // if cmax equal g then compute h
+    else if (cmax == g)
+        h = (60 * ((b - r) / diff) + 120) % 360;
+
+    // if cmax equal b then compute h
+    else if (cmax == b)
+        h = (60 * ((r - g) / diff) + 240) % 360;
+
+    // if cmax equal zero
+    if (cmax == 0)
+        s = 0;
+    else
+        s = (diff / cmax) * 100;
+
+    // compute v
+    const v = cmax * 100;
+    
+    return {h, s, v};
+}
