@@ -402,8 +402,14 @@ d3.csv('./raw-data.csv', (d) => {
         })
         .on('click', (d) => {
 
+            // when the node is clicked, set the compare data based on the current compare index
+            // the compare index flips between 0 and 1
+
+            // sets the image in the compare image
+            // this uses background-image in style for more convenient size control
             d3.select(compareImages.nodes()[currentCompareIndex]).style('background-image', `url('${d.src}')`);
 
+            // sets the colors in the compare palette
             let i = 0;
             d3.select(comparePalettes.nodes()[currentCompareIndex])
             .selectAll('.compare-palette-color')
@@ -416,12 +422,15 @@ d3.csv('./raw-data.csv', (d) => {
                 return color;
             })
 
+            // this sets the painting name and painter name in the comparer
             d3.select(compareNames.nodes()[currentCompareIndex])
             .text(`"${d.name}"`)
 
+            // note that the painter's name is the same as the cluster name
             d3.select(comparePNames.nodes()[currentCompareIndex])
             .text(`${d.cluster}`)
 
+            // finally, flip the index so that the next painting selected will affect the other compare data
             currentCompareIndex = currentCompareIndex === 0 ? 1 : 0;
 
         })
