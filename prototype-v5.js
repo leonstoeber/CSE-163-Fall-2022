@@ -6,8 +6,9 @@ const svgHeight = 800;
 const width = svgWidth - margin.left - margin.right;
 const height = svgHeight - margin.top - margin.bottom;
 
-const svg = d3
-.select('body')
+const svgContainer = d3.select('#svg-container');
+
+const svg = svgContainer
 .append('svg')
 .attr('width', svgWidth)
 .attr('height', svgHeight)
@@ -68,6 +69,32 @@ const tooltipImage = d3.select('#tooltip #image')
 // painter tool tip
 const pTooltip = d3.select('#pTooltip');
 const pTooltipName = d3.select('#pTooltip #pName')
+
+// setup compare containers for comparing paintings on the right side of the svg
+const comparers = d3.selectAll('.compare')
+const comparePalettes = comparers
+.append('div')
+.attr('class', 'compare-palette')
+
+const compareImages = comparers
+.append('div')
+.attr('class', 'compare-image')
+
+const compareNames = comparers
+.append('div')
+.attr('class', 'compare-name')
+
+const comparePNames = comparers
+.append('div')
+.attr('class', 'compare-pname')
+
+for (let i = 0; i < 8; i++) {
+    comparePalettes
+    .append('div')
+    .attr('class', 'compare-palette-color')
+}
+
+let currentCompareIndex = 0;
 
 
 
@@ -372,6 +399,31 @@ d3.csv('./raw-data.csv', (d) => {
                 pTooltip.style('display', 'none')
             }
     
+        })
+        .on('click', (d) => {
+
+            d3.select(compareImages.nodes()[currentCompareIndex]).style('background-image', `url('${d.src}')`);
+
+            let i = 0;
+            d3.select(comparePalettes.nodes()[currentCompareIndex])
+            .selectAll('.compare-palette-color')
+            .style('background-color', () => {
+                if (!d.colors) {
+                    return '#00000000';
+                }
+                const color = `#${d.colors[i] !== undefined ? d.colors[i].hex : '00000000'}`;
+                i++;
+                return color;
+            })
+
+            d3.select(compareNames.nodes()[currentCompareIndex])
+            .text(`"${d.name}"`)
+
+            d3.select(comparePNames.nodes()[currentCompareIndex])
+            .text(`${d.cluster}`)
+
+            currentCompareIndex = currentCompareIndex === 0 ? 1 : 0;
+
         })
 
         // if the data is of a painter, setup the image, otherwise setup the circle
