@@ -88,6 +88,10 @@ const comparePNames = comparers
 .append('div')
 .attr('class', 'compare-pname')
 
+const compareYears = comparers
+.append('div')
+.attr('class', 'compare-year')
+
 for (let i = 0; i < 8; i++) {
     comparePalettes
     .append('div')
@@ -131,6 +135,9 @@ d3.csv('./raw-data.csv', (d) => {
 
         // title of the painting, if none default to the filename
         name: d['Painting Title'] || d['Filename'],
+
+        // year of the painting, if none default to the "(Unknown)"
+        year: d['Painting Year'] || "(Uknown)",
 
         // stores the colors into an array temporarily
         // at this stage, the colors are strings of form #abcdef
@@ -249,6 +256,7 @@ d3.csv('./raw-data.csv', (d) => {
             cluster: key,
             label: key,
             name: key,
+            year: key,
             colors: [],
             // links is an array of labels
             links: [],
@@ -429,6 +437,10 @@ d3.csv('./raw-data.csv', (d) => {
             // note that the painter's name is the same as the cluster name
             d3.select(comparePNames.nodes()[currentCompareIndex])
             .text(`${d.cluster}`)
+
+            // note that the painter's name is the same as the cluster name
+            d3.select(compareYears.nodes()[currentCompareIndex])
+            .text(`${d.year}`)
 
             // finally, flip the index so that the next painting selected will affect the other compare data
             currentCompareIndex = currentCompareIndex === 0 ? 1 : 0;

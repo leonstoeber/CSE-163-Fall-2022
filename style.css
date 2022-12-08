@@ -60,6 +60,10 @@ main {
     font-size: 14px;
 }
 
+.compare-year {
+    font-size: 14px;
+}
+
 #tooltip {
     position: absolute; /* prevents tooltip position from affecting positions of other objects onscreen */ 
     left: 318px; /* initial x position */ 
