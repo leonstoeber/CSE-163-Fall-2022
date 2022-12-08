@@ -137,7 +137,7 @@ d3.csv('./raw-data.csv', (d) => {
         name: d['Painting Title'] || d['Filename'],
 
         // year of the painting, if none default to the "(Unknown)"
-        year: d['Painting Year'] || "(Uknown)",
+        year: d['Painting Year'] || "(Unknown)",
 
         // stores the colors into an array temporarily
         // at this stage, the colors are strings of form #abcdef
